@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel del Administrador</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+    header { background-color: #4a148c; color: white; padding: 20px; text-align: center; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    .section-title { margin-top: 40px; color: #4a148c; border-bottom: 2px solid #ccc; padding-bottom: 5px; }
+    .legend span { display: inline-block; margin-right: 10px; padding: 5px 10px; border-radius: 5px; font-size: 14px; color: white; margin-bottom: 10px; }
+    .en-uso { background-color: #2ecc71; }
+    .mantenimiento { background-color: #e67e22; }
+    .desconectada { background-color: #e74c3c; }
+    .prendida { background-color: #3498db; }
+    .sin-wifi { background-color: #f1c40f; color: black; }
+    .grid { display: flex; overflow-x: auto; gap: 15px; margin-top: 20px; padding-bottom: 10px; }
+    .equipo { flex: 0 0 auto; width: 100px; padding: 20px; border-radius: 10px; text-align: center; font-weight: bold; cursor: pointer; color: white; transition: transform 0.3s; position: relative; text-decoration: none; }
+    .equipo:hover { transform: scale(1.1); }
+    .popup { display: none; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background: #fff; color: #333; padding: 10px; border-radius: 8px; font-size: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index: 10; white-space: nowrap; }
+    .equipo:hover .popup { display: block; }
+    .panel { position: fixed; top: 0; right: -400px; width: 350px; height: 100%; background-color: #fff; box-shadow: -2px 0 10px rgba(0,0,0,0.2); transition: right 0.3s ease; padding: 20px; z-index: 999; overflow-y: auto; }
+    .panel.open { right: 0; }
+    .close-btn { background-color: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+    .info-item { margin-bottom: 10px; font-size: 14px; }
+    .info-text { background: #fff; padding: 15px; border-radius: 8px; margin-top: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); cursor: pointer; text-decoration: none; color: black; }
+    .info-text:hover { background: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Panel de Control - Sistema de Equipos</h1>
+  </header>
+
+  <div class="container">
+    <h2 class="section-title">Leyenda de Estados</h2>
+    <div class="legend">
+      <span class="en-uso">👥 En uso</span>
+      <span class="mantenimiento">🔧 Mantenimiento</span>
+      <span class="desconectada">⚠️ Desconectada</span>
+      <span class="prendida">🔵 Prendida sin uso</span>
+      <span class="sin-wifi">🟡 Sin conexión WiFi</span>
+    </div>
+
+    <script>
+      const aulas = [
+        { nombre: "Salón A", prefijo: "A" },
+        { nombre: "Cisco", prefijo: "C" },
+        { nombre: "FISEP", prefijo: "F" },
+        { nombre: "Multimedia", prefijo: "M" },
+        { nombre: "Centro de Cómputo", prefijo: "CC" },
+        { nombre: "Capilla", prefijo: "CP" }
+      ]; // Aula 6 removida
+      const estados = ["en-uso", "mantenimiento", "desconectada", "prendida", "sin-wifi"];
+      const iconos = {
+        "en-uso": "👥",
+        "mantenimiento": "🔧",
+        "desconectada": "⚠️",
+        "prendida": "🔵",
+        "sin-wifi": "🟡"
+      };
+      aulas.forEach((aula, idx) => {
+        document.write(`<h2 class="section-title">${aula.nombre}</h2><div class="grid">`);
+        for (let i = 1; i <= 10; i++) {
+          const estado = estados[Math.floor(Math.random() * estados.length)];
+          const icono = iconos[estado];
+          const ip = `192.168.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+          const hora = `${Math.floor(Math.random()*24).toString().padStart(2,'0')}:${Math.floor(Math.random()*60).toString().padStart(2,'0')}`;
+          const terminal = `PC-${aula.prefijo}${i}`;
+          const app = estado === "en-uso" ? `Aplicación: Google Chrome<br>` : "";
+          const content = `
+            <div class="popup">
+              Terminal: ${terminal}<br>
+              IP: ${ip}<br>
+              Inicio: ${hora}<br>
+              ${app}Versión: V.3.3.13
+            </div>
+            ${icono} ${terminal}`;
+          if (idx === 0 && i === 1) {
+            // primera PC de la primera sección (Salón A) con enlace a pc.html
+            document.write(`<a href="pc.html" class="equipo ${estado}">${content}</a>`);
+          } else {
+            document.write(`<div class="equipo ${estado}">${content}</div>`);
+          }
+        }
+        document.write(`</div>`);
+      });
+    </script>
+
+    <h2 class="section-title">Acciones del Administrador</h2>
+    <div class="grid" style="flex-wrap: wrap;">
+      <a class="info-text" href="reghad.html">
+        <strong>📦 Registrar hardware/software</strong>
+        <p>Escaneo automático del equipo cada semestre.</p>
+      </a>
+
+      <a class="info-text" href="cuenus.html">
+        <strong>👥 Crear cuentas de usuario</strong>
+        <p>Registro individual o masivo con número de control.</p>
+      </a>
+
+      <a class="info-text" href="visin.html">
+        <strong>📊 Visualizar inventario</strong>
+        <p>Ver equipos por laboratorio en tiempo real.</p>
+      </a>
+
+      <a class="info-text" href="hisuso.html">
+        <strong>🖥 Historial de uso y alertas</strong>
+        <p>Reportes por máquina y alertas automáticas.</p>
+      </a>
+
+      <a class="info-text" href="paramser.html">
+        <strong>🔒 Parámetros del servidor</strong>
+        <p>Configuración solo por el administrador.</p>
+      </a>
+
+      <a class="info-text" href="esta.html">
+        <strong>😃 Estadísticas de satisfacción</strong>
+        <p>Datos recolectados al cerrar sesión.</p>
+      </a>
+
+         </div>
+  </div>
+</body>
+</html>
