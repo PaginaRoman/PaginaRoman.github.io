@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Estadísticas de Satisfacción</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+    header { background-color: #4a148c; color: white; padding: 20px; text-align: center; }
+    .container { max-width: 1100px; margin: auto; padding: 20px; }
+
+    h2 { color: #4a148c; margin-top: 40px; border-bottom: 2px solid #ccc; padding-bottom: 5px; }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .comentario-bueno { border-left: 6px solid #2ecc71; }
+    .comentario-regular { border-left: 6px solid #f1c40f; }
+    .comentario-malo { border-left: 6px solid #e74c3c; }
+
+    .autor { font-size: 14px; color: #555; margin-top: 10px; }
+    .comentario { font-size: 16px; margin-top: 8px; }
+
+    canvas { max-width: 500px; margin: 20px auto; display: block; }
+
+    .filtros {
+      margin: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    select, button {
+      padding: 10px 15px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    button {
+      background-color: #4a148c;
+      color: white;
+      border: none;
+    }
+
+    button:hover {
+      background-color: #6a1b9a;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Estadísticas de Satisfacción del Usuario</h1>
+  </header>
+
+  <div class="container">
+    <h2>📊 Distribución de Opiniones</h2>
+    <canvas id="opinionChart"></canvas>
+
+    <div class="filtros">
+      <select id="filtro" onchange="filtrarOpiniones()">
+        <option value="todas">Mostrar todas</option>
+        <option value="bueno">Solo buenas</option>
+        <option value="regular">Solo regulares</option>
+        <option value="malo">Solo malas</option>
+      </select>
+
+      <button onclick="exportarOpiniones()">⬇️ Exportar Opiniones</button>
+    </div>
+
+    <h2>📝 Opiniones Recientes</h2>
+    <div id="contenedorOpiniones">
+      <!-- Las tarjetas se generan con JavaScript -->
+    </div>
+  </div>
+
+  <script>
+    const opiniones = [
+      {
+        texto: "Gran fluidez en todo el sistema, sin interrupciones ni errores.",
+        tipo: "bueno",
+        autor: "Juan Pérez",
+        control: "21450312",
+        fecha: "04/07/2025",
+        hora: "10:32 AM"
+      },
+      {
+        texto: "Todo funcionó perfecto. Encendió rápido y pude trabajar sin problemas.",
+        tipo: "bueno",
+        autor: "Laura Martínez",
+        control: "21450387",
+        fecha: "04/07/2025",
+        hora: "11:05 AM"
+      },
+      {
+        texto: "Funcionó bien, aunque tardó un poco en cargar Word.",
+        tipo: "regular",
+        autor: "Carlos Núñez",
+        control: "21450234",
+        fecha: "04/07/2025",
+        hora: "09:50 AM"
+      },
+      {
+        texto: "Me gustó que tuviera todas las aplicaciones necesarias actualizadas.",
+        tipo: "bueno",
+        autor: "Valeria Gómez",
+        control: "21450400",
+        fecha: "04/07/2025",
+        hora: "12:40 PM"
+      },
+      {
+        texto: "La PC se reinició sola mientras estaba trabajando, perdí información.",
+        tipo: "malo",
+        autor: "Luis Herrera",
+        control: "21450211",
+        fecha: "04/07/2025",
+        hora: "10:15 AM"
+      },
+      {
+        texto: "No estaba mal, pero el internet estaba algo lento.",
+        tipo: "regular",
+        autor: "Ana Díaz",
+        control: "21450366",
+        fecha: "04/07/2025",
+        hora: "11:20 AM"
+      },
+      {
+        texto: "Tardó mucho en prender, y el mouse no funcionaba.",
+        tipo: "malo",
+        autor: "Erick Sánchez",
+        control: "21450333",
+        fecha: "04/07/2025",
+        hora: "13:02 PM"
+      }
+    ];
+
+    const colores = {
+      bueno: "comentario-bueno",
+      regular: "comentario-regular",
+      malo: "comentario-malo"
+    };
+
+    function mostrarOpiniones(filtrar = "todas") {
+      const contenedor = document.getElementById("contenedorOpiniones");
+      contenedor.innerHTML = "";
+
+      opiniones.forEach(op => {
+        if (filtrar === "todas" || op.tipo === filtrar) {
+          const card = document.createElement("div");
+          card.className = `card ${colores[op.tipo]}`;
+          card.innerHTML = `
+            <div class="comentario">"${op.texto}"</div>
+            <div class="autor">${op.autor} · No. Control: ${op.control} · ${op.fecha} · ${op.hora}</div>
+          `;
+          contenedor.appendChild(card);
+        }
+      });
+    }
+
+    function filtrarOpiniones() {
+      const filtro = document.getElementById("filtro").value;
+      mostrarOpiniones(filtro);
+    }
+
+    function exportarOpiniones() {
+      let contenido = "Opiniones de usuarios:\n\n";
+      opiniones.forEach(op => {
+        contenido += `"${op.texto}"\n - ${op.autor} (${op.control}) el ${op.fecha} a las ${op.hora}\n\n`;
+      });
+
+      const blob = new Blob([contenido], { type: "text/plain;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "opiniones_usuarios.txt";
+      link.click();
+    }
+
+    // Inicializa gráfico y carga inicial
+    window.onload = () => {
+      mostrarOpiniones();
+
+      const ctx = document.getElementById('opinionChart').getContext('2d');
+      const counts = {
+        bueno: opiniones.filter(op => op.tipo === 'bueno').length,
+        regular: opiniones.filter(op => op.tipo === 'regular').length,
+        malo: opiniones.filter(op => op.tipo === 'malo').length
+      };
+
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Buenas', 'Regulares', 'Malas'],
+          datasets: [{
+            data: [counts.bueno, counts.regular, counts.malo],
+            backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c']
+          }]
+        },
+        options: {
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    };
+  </script>
+</body>
+</html>

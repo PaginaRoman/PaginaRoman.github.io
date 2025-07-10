@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel de Usuario</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ece9f1, #f5f5ff);
+    }
+
+    header {
+      background: #4a148c;
+      color: white;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #4a148c;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 6px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .legend span {
+      padding: 8px 14px;
+      border-radius: 25px;
+      font-size: 14px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .en-uso { background-color: #2ecc71; }
+    .mantenimiento { background-color: #e67e22; }
+    .desconectada { background-color: #e74c3c; }
+    .prendida { background-color: #3498db; }
+    .sin-wifi { background-color: #f1c40f; color: black; }
+
+    .grid {
+      display: flex;
+      overflow-x: auto;
+      gap: 15px;
+      padding-bottom: 20px;
+    }
+
+    .equipo {
+      flex: 0 0 auto;
+      width: 110px;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      transition: transform 0.3s;
+      position: relative;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .equipo:hover {
+      transform: scale(1.1);
+    }
+
+    .popup {
+      display: none;
+      position: absolute;
+      bottom: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      color: #333;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 10;
+      white-space: nowrap;
+    }
+
+    .equipo:hover .popup {
+      display: block;
+    }
+
+    .back-btn {
+      display: block;
+      width: fit-content;
+      margin: 40px auto 0;
+      padding: 12px 20px;
+      background-color: #6a1b9a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: #8e24aa;
+    }
+
+    @media (max-width: 768px) {
+      .equipo {
+        width: 90px;
+        padding: 15px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Panel de Usuario - Sistema de Equipos</h1>
+  </header>
+
+  <div class="container">
+    <h2 class="section-title">Leyenda de Estados</h2>
+    <div class="legend">
+      <span class="en-uso">👥 En uso</span>
+      <span class="mantenimiento">🔧 Mantenimiento</span>
+      <span class="desconectada">⚠️ Desconectada</span>
+      <span class="prendida">🔵 Prendida sin uso</span>
+      <span class="sin-wifi">🟡 Sin conexión WiFi</span>
+    </div>
+
+    <script>
+      const aulas = [
+        { nombre: "Multi 1", prefijo: "A" },
+        { nombre: "Cisco", prefijo: "C" },
+        { nombre: "FISEP", prefijo: "F" },
+        { nombre: "Multi 2", prefijo: "M" },
+        { nombre: "Aplicada", prefijo: "CC" },
+        { nombre: "Servicio", prefijo: "CP" }
+      ];
+      const estados = ["en-uso", "mantenimiento", "desconectada", "prendida", "sin-wifi"];
+      const iconos = {
+        "en-uso": "👥",
+        "mantenimiento": "🔧",
+        "desconectada": "⚠️",
+        "prendida": "🔵",
+        "sin-wifi": "🟡"
+      };
+      aulas.forEach((aula, idx) => {
+        document.write(`<h2 class="section-title">${aula.nombre}</h2><div class="grid">`);
+        for (let i = 1; i <= 10; i++) {
+          const estado = estados[Math.floor(Math.random() * estados.length)];
+          const icono = iconos[estado];
+          const ip = `192.168.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+          const hora = `${Math.floor(Math.random()*24).toString().padStart(2,'0')}:${Math.floor(Math.random()*60).toString().padStart(2,'0')}`;
+          const terminal = `PC-${aula.prefijo}${i}`;
+          const app = estado === "en-uso" ? `Aplicación: Google Chrome<br>` : "";
+          const content = `
+            <div class="popup">
+              Terminal: ${terminal}<br>
+              IP: ${ip}<br>
+              Inicio: ${hora}<br>
+              ${app}Versión: V.3.3.13
+            </div>
+            ${icono} ${terminal}`;
+          if (idx === 0 && i === 1) {
+            document.write(`<a href="pc.html" class="equipo ${estado}">${content}</a>`);
+          } else {
+            document.write(`<div class="equipo ${estado}">${content}</div>`);
+          }
+        }
+        document.write(`</div>`);
+      });
+    </script>
+
+    <a href="panel_admin.html" class="back-btn">⬅️ Volver al menú principal</a>
+  </div>
+</body>
+</html>

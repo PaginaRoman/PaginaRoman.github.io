@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Control de Ciber</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ece9f1, #f8f6fa);
+      color: #333;
+    }
+    header {
+      background: #4a148c;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    #fechaHora {
+      margin-top: 10px;
+      font-weight: 300;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 30px 20px;
+    }
+    .box {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      padding: 25px;
+      transition: transform 0.3s ease;
+    }
+    .box:hover {
+      transform: translateY(-5px);
+    }
+    .box h3 {
+      color: #4a148c;
+      font-size: 20px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+    .info {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+    canvas {
+      margin-top: 15px;
+    }
+    .btn-avanzada {
+      display: block;
+      width: fit-content;
+      margin: 30px auto;
+      padding: 15px 30px;
+      text-align: center;
+      background-color: #4a148c;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.3s, transform 0.2s;
+    }
+    .btn-avanzada:hover {
+      background-color: #6a1b9a;
+      transform: scale(1.05);
+    }
+    .clickable-box {
+      cursor: pointer;
+    }
+    .clickable-box:hover {
+      background-color: #f4effb;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CONTROL DE CIBER</h1>
+    <div id="fechaHora"></div>
+  </header>
+
+  <div class="container">
+    <!-- LABORATORIOS -->
+    <div class="box">
+      <h3>LABORATORIOS</h3>
+      <div class="info">Total de laboratorios operativos: <strong>6</strong></div>
+      <canvas id="graficoLabs" width="200" height="200"></canvas>
+      <div class="info">Alumnos conectados actualmente: <strong>50</strong></div>
+      <div class="info">Alumnos no conectados: <strong>50</strong></div>
+    </div>
+
+    <!-- EQUIPOS (ENLACE) -->
+    <a href="sistema_de_equipos.html" class="box clickable-box" style="text-decoration: none; color: inherit;">
+      <h3>EQUIPOS</h3>
+      <div class="info">🟢 Equipos encendidos: <strong>2</strong></div>
+      <div class="info">🔧 En mantenimiento: <strong>3</strong></div>
+      <div class="info">⚠️ Desconectados: <strong>2</strong></div>
+      <div class="info">🔵 Prendidos sin uso: <strong>2</strong></div>
+      <div class="info">🟣 Sin cambios: <strong>1</strong></div>
+      <canvas id="graficoEquipos" width="200" height="200"></canvas>
+      <div class="info" style="text-align:center; font-style: italic; margin-top: 10px; color:#666;">Haz clic para ver el detalle de cada equipo</div>
+    </a>
+
+    <!-- INCIDENCIAS -->
+    <div class="box">
+      <h3>INCIDENCIAS</h3>
+      <div class="info">🛠 1. PCO1 (CISCO) - Activar Office</div>
+      <div class="info">🔌 2. PC15 (SERVICIO) - Checar cable de red</div>
+      <div class="info">🛠 3. PC20 (APLICADA) - Activar Office</div>
+      <canvas id="graficoIncidencias" width="200" height="200"></canvas>
+    </div>
+  </div>
+
+  <a class="btn-avanzada" href="avanzada.html"> AVANZADA</a>
+
+  <script>
+    function actualizarFechaHora() {
+      const ahora = new Date();
+      const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const fecha = ahora.toLocaleDateString('es-MX', opciones);
+      const hora = ahora.toLocaleTimeString('es-MX');
+      document.getElementById('fechaHora').innerHTML = `${fecha.toUpperCase()} - ${hora}`;
+    }
+    setInterval(actualizarFechaHora, 1000);
+    actualizarFechaHora();
+
+    new Chart(document.getElementById('graficoLabs'), {
+      type: 'pie',
+      data: {
+        labels: ['FISEP', 'MULTI 1', 'CISCO', 'MULTI 2', 'SERVICIO', 'APLICADA'],
+        datasets: [{
+          data: [26, 21, 13, 18, 3, 19],
+          backgroundColor: ['#9ccc65', '#ffb74d', '#4fc3f7', '#9575cd', '#ff8a65', '#ba68c8']
+        }]
+      },
+      options: {
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+
+    new Chart(document.getElementById('graficoEquipos'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Encendidos', 'Mantenimiento', 'Desconectados', 'Sin uso', 'Sin cambios'],
+        datasets: [{
+          data: [2, 3, 2, 2, 1],
+          backgroundColor: ['#4caf50', '#fb8c00', '#e53935', '#42a5f5', '#90a4ae']
+        }]
+      },
+      options: {
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+
+    new Chart(document.getElementById('graficoIncidencias'), {
+      type: 'bar',
+      data: {
+        labels: ['CISCO', 'SERVICIO', 'APLICADA'],
+        datasets: [{
+          label: 'Incidencias',
+          data: [1, 1, 1],
+          backgroundColor: ['#29b6f6', '#ff7043', '#ab47bc']
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+  </script>
+</body>
+</html>

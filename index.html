@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Sistema Ciber</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: url('ktwo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 320px;
+      color: white;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .login-box h2 {
+      margin-bottom: 25px;
+      font-size: 24px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .login-box input::placeholder {
+      color: #ddd;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #6a1b9a, #8e24aa);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .login-box button:hover {
+      background: linear-gradient(45deg, #8e24aa, #ab47bc);
+    }
+
+    .login-box p {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .error {
+      color: #ff8a80;
+      margin-top: 10px;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <h2>Iniciar Sesión</h2>
+    <input type="text" id="usuario" placeholder="Usuario">
+    <input type="password" id="contrasena" placeholder="Contraseña">
+    <button onclick="validarLogin()">Enviar</button>
+    <p>¿Olvidaste tu contraseña?</p>
+    <div class="error" id="error">Usuario o contraseña incorrectos</div>
+  </div>
+
+  <script>
+    function validarLogin() {
+      const user = document.getElementById('usuario').value.trim().toLowerCase();
+      const pass = document.getElementById('contrasena').value.trim();
+      const error = document.getElementById('error');
+
+      if (user === '22cs0034' && pass === '321') {
+        window.location.href = 'usuario.html';
+      } else if (user === 'administrador' && pass === '123') {
+        window.location.href = 'panel_admin.html';
+      } else {
+        error.style.display = 'block';
+      }
+    }
+  </script>
+
+</body>
+</html>

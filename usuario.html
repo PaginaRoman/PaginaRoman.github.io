@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Encuesta del Usuario</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('fondo.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 30px;
+      width: 400px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      color: #fff;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .feedback {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 15px;
+    }
+    .feedback div {
+      cursor: pointer;
+      font-size: 24px;
+      transition: transform 0.2s;
+    }
+    .feedback div:hover {
+      transform: scale(1.2);
+    }
+    .clock {
+      text-align: center;
+      font-size: 14px;
+      color: #eee;
+      margin-top: 10px;
+    }
+    button {
+      background-color: #4a148c;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #6a1b9a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glass-panel">
+    <h2>Encuesta del Usuario</h2>
+    <form>
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required>
+
+      <label for="control">Número de Control:</label>
+      <input type="text" id="control" name="control" required>
+
+      <label for="actividad">¿Qué estabas haciendo?</label>
+      <textarea id="actividad" name="actividad" rows="2" required></textarea>
+
+      <label for="tipo">Tipo de trabajo:</label>
+      <select id="tipo" name="tipo" required>
+        <option value="">Selecciona una opción</option>
+        <option value="proyecto">Proyecto</option>
+        <option value="tarea">Tarea</option>
+        <option value="investigación">Investigación</option>
+      </select>
+
+      <label>¿Cómo estuvo el equipo?</label>
+      <div class="feedback">
+        <div title="Malo 😡">😡</div>
+        <div title="Regular 😐">😐</div>
+        <div title="Bueno 😃">😃</div>
+      </div>
+
+      <div class="clock" id="clock"></div>
+
+      <button type="submit">Enviar Respuesta</button>
+    </form>
+  </div>
+
+  <script>
+    // Actualizar hora en tiempo real
+    function updateClock() {
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const fecha = now.toLocaleDateString('es-MX', options);
+      const hora = now.toLocaleTimeString('es-MX');
+      document.getElementById('clock').textContent = `${fecha} - ${hora}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>

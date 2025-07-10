@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Acciones del Administrador</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #ede7f6, #f3e5f5);
+      padding: 20px;
+    }
+
+    header {
+      background-color: #6a1b9a;
+      color: white;
+      padding: 25px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      margin-bottom: 30px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-title {
+      font-size: 24px;
+      color: #4a148c;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: black;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .card-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+      color: #6a1b9a;
+    }
+
+    .card-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .back-btn {
+      margin-top: 40px;
+      display: block;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #8e24aa;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: #ab47bc;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>⚙️ Acciones del Administrador</h1>
+    <p>Gestión avanzada del sistema de equipos</p>
+  </header>
+
+  <div class="container">
+    <h2 class="section-title">Herramientas Disponibles</h2>
+
+    <div class="grid">
+      <a class="card" href="reghad.html">
+        <div class="card-icon">📦</div>
+        <div class="card-title">Registrar hardware/software</div>
+        <div class="card-desc">Escaneo y registro automático de cada equipo por semestre.</div>
+      </a>
+
+      <a class="card" href="cuenus.html">
+        <div class="card-icon">👥</div>
+        <div class="card-title">Crear cuentas de usuario</div>
+        <div class="card-desc">Agrega usuarios con número de control, individual o masivo.</div>
+      </a>
+
+      <a class="card" href="visin.html">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Visualizar inventario</div>
+        <div class="card-desc">Consulta el estado de equipos por laboratorio en tiempo real.</div>
+      </a>
+
+      <a class="card" href="hisuso.html">
+        <div class="card-icon">🖥</div>
+        <div class="card-title">Historial de uso</div>
+        <div class="card-desc">Accede a reportes de actividad y alertas automáticas.</div>
+      </a>
+
+      <a class="card" href="paramser.html">
+        <div class="card-icon">🔒</div>
+        <div class="card-title">Parámetros del servidor</div>
+        <div class="card-desc">Ajustes internos del sistema. Solo personal autorizado.</div>
+      </a>
+
+      <a class="card" href="esta.html">
+        <div class="card-icon">😃</div>
+        <div class="card-title">Estadísticas de satisfacción</div>
+        <div class="card-desc">Revisión de encuestas y comentarios de usuarios.</div>
+      </a>
+    </div>
+
+    <a class="back-btn" href="panel_admin.html">⬅️ Volver al panel principal</a>
+  </div>
+
+</body>
+</html>
